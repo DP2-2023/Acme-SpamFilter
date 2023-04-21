@@ -23,12 +23,20 @@ public class SpamFilter {
 
 		int numSpamTerms = 0;
 		for (final String spamTerm : this.spamTerms)
-			if (normalizedInput.contains(spamTerm))
-				numSpamTerms++;
+			numSpamTerms += SpamFilter.countMatches(normalizedInput, spamTerm);
 
 		final float spamRatio = (float) numSpamTerms / nInputWords;
 
 		return spamRatio >= this.threshold;
 	}
 
+	private static int countMatches(final String str, final String substr) {
+		int count = 0;
+		int index = 0;
+		while ((index = str.indexOf(substr, index)) != -1) {
+			count++;
+			index += substr.length();
+		}
+		return count;
+	}
 }
